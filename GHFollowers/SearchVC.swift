@@ -13,7 +13,7 @@ final class SearchVC: UIViewController {
     private let logoImageView = UIImageView()
     private let usernameTextField = GFTextField()
     private let callToActionButton = GFButton(backgroundColor: .systemGreen, title: "Get Followers")
-    
+
     // MARK: - Overriden funcs
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,13 +21,20 @@ final class SearchVC: UIViewController {
         configureLogoImageView()
         configureTextField()
         configureCallToActionButton()
+        createKeyboardTapGesture()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
+        usernameTextField.delegate = self
     }
-    
+
+    private func createKeyboardTapGesture() {
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tap)
+    }
+
     // MARK: - Configure UI Componets funcs
     private func configureLogoImageView() {
         view.addSubview(logoImageView)
@@ -38,14 +45,14 @@ final class SearchVC: UIViewController {
             logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logoImageView.heightAnchor.constraint(equalToConstant: 200),
-            logoImageView.widthAnchor.constraint(equalToConstant: 200),
+            logoImageView.widthAnchor.constraint(equalToConstant: 200)
         ])
     }
-    
+
     private func configureTextField() {
         view.addSubview(usernameTextField)
         usernameTextField.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             usernameTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 48),
             usernameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
@@ -53,11 +60,11 @@ final class SearchVC: UIViewController {
             usernameTextField.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
-    
+
     private func configureCallToActionButton() {
         view.addSubview(callToActionButton)
         callToActionButton.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             callToActionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
             callToActionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
@@ -67,3 +74,9 @@ final class SearchVC: UIViewController {
     }
 }
 
+extension SearchVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("did tap return")
+        return true
+    }
+}

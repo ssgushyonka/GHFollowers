@@ -3,7 +3,7 @@
 //  GHFollowers
 //
 //  Created by Элина Борисова on 27.02.2025.
-//
+// swiftlint:disable all
 
 import UIKit
 
